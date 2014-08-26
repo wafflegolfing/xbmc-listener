@@ -4,7 +4,7 @@
 
   var hasProp = function (obj, arr) {
     var prop;
-    if (arr.length === 0 || !obj) {
+    if (arr.length === 0) {
       return false;
     }
     prop = arr.shift();
@@ -18,7 +18,6 @@
   };
 
   module.exports = function (obj, callback) {
-    console.log(JSON.stringify(obj));
     var skipMethods = [
       //'Playlist.OnAdd'
     ];
@@ -55,23 +54,6 @@
           happened.push({ method: aliases[method][j], data: obj });
         }
       }
-    }
-
-    if (method === 'GUI.OnScreensaverDeactivated') {
-      happened.push({ method: 'screensaverOff', data: obj });
-    }
-
-    if (method === 'GUI.OnScreensaverActivated') {
-      happened.push({ method: 'screensaverOn', data: obj });
-    }
-
-    if (type === 'picture' && method === 'Playlist.OnAdd') {
-      happened.push({ method: 'playPicture', data: obj.params.data.item });
-      happened.push({ method: 'play', data: obj.params.data.item }); // not really
-    }
-
-    if (type === 'movie' && obj.params.data.item.id && method === 'Player.OnPlay') {
-      happened.push({ method: 'playMovie', data: obj.params.data.item });
     }
 
     if (type === 'movie' && obj.params.data.item.id && method === 'Player.OnPlay') {
@@ -119,34 +101,34 @@
       }
     }
 
-    if ((type === 'movie' || type === 'episode') && player === 1 && method === 'Player.OnPlay') {
+    if (type === 'unknown' && player === 1 && method === 'Player.OnPlay') {
       happened.push({ method: 'playAirplay', data: obj.params.data.item });
       happened.push({ method: 'playAirplayVideo', data: obj.params.data.item });
     }
 
-    if ((type === 'movie' || type === 'episode') && player === 1 && method === 'Player.OnPause') {
+    if (type === 'unknown' && player === 1 && method === 'Player.OnPause') {
       happened.push({ method: 'pauseAirplay', data: obj.params.data.item });
       happened.push({ method: 'pauseAirplayVideo', data: obj.params.data.item });
     }
 
-    if ((type === 'movie' || type === 'episode') && player === 1 && method === 'Player.OnStop') {
+    if (type === 'unknown' && player === 1 && method === 'Player.OnStop') {
       happened.push({ method: 'stopAirplay', data: obj.params.data.item });
       happened.push({ method: 'stopAirplayVideo', data: obj.params.data.item });
     }
 
-    if (player === 1 && method === 'Player.OnPlay' && (type === 'movie' || type === 'episode')) {
+    if (player === 1 && method === 'Player.OnPlay') {
       happened.push({ method: 'playVideo', data: obj.params.data.item });
     }
 
-    if (player === 1 && method === 'Player.OnPause' && (type === 'movie' || type === 'episode')) {
+    if (player === 1 && method === 'Player.OnPause') {
       happened.push({ method: 'pauseVideo', data: obj.params.data.item });
     }
 
-    if (player === 1 && method === 'Player.OnStop' && (type === 'movie' || type === 'episode')) {
+    if (player === 1 && method === 'Player.OnStop') {
       happened.push({ method: 'stopVideo', data: obj.params.data.item });
     }
 
-    if (((player === 0 || player === -1) || (player === 1 && type === 'song') || (player === 1 && type === 'unknown')) && method === 'Player.OnPlay') {
+    if ((player === 0 || player === -1) && method === 'Player.OnPlay') {
       happened.push({ method: 'playAudio', data: obj.params.data.item });
       happened.push({ method: 'playMusic', data: obj.params.data.item });
       if (type === 'song') {
@@ -155,13 +137,13 @@
       if (type === 'unknown') {
         happened.push({ method: 'playWebRadio', data: obj.params.data.item });
       }
-      if (player === -1 || (player === 1 && type === 'song')) {
+      if (player === -1) {
         happened.push({ method: 'playAirplay', data: obj.params.data.item });
         happened.push({ method: 'playAirplayAudio', data: obj.params.data.item });
       }
     }
 
-    if (((player === 0 || player === -1) || (player === 1 && type === 'song') || (player === 1 && type === 'unknown')) && method === 'Player.OnPause') {
+    if ((player === 0 || player === -1) && method === 'Player.OnPause') {
       happened.push({ method: 'pauseAudio', data: obj.params.data.item });
       happened.push({ method: 'pauseMusic', data: obj.params.data.item });
       if (type === 'song') {
@@ -170,13 +152,13 @@
       if (type === 'unknown') {
         happened.push({ method: 'pauseWebRadio', data: obj.params.data.item });
       }
-      if (player === -1 || (player === 1 && type === 'song')) {
+      if (player === -1) {
         happened.push({ method: 'pauseAirplay', data: obj.params.data.item });
         happened.push({ method: 'pauseAirplayAudio', data: obj.params.data.item });
       }
     }
 
-    if (((player === 0 || player === -1) || (player === 1 && type === 'song') || (player === 1 && type === 'unknown')) && method === 'Player.OnStop') {
+    if ((player === 0 || player === -1) && method === 'Player.OnStop') {
       happened.push({ method: 'stopAudio', data: obj.params.data.item });
       happened.push({ method: 'stopMusic', data: obj.params.data.item });
       if (type === 'song') {
@@ -185,7 +167,7 @@
       if (type === 'unknown') {
         happened.push({ method: 'stopWebRadio', data: obj.params.data.item });
       }
-      if (player === -1 || (player === 1 && type === 'song')) {
+      if (player === -1) {
         happened.push({ method: 'stopAirplay', data: obj.params.data.item });
         happened.push({ method: 'stopAirplayAudio', data: obj.params.data.item });
       }
