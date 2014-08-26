@@ -45,6 +45,9 @@
         });
       }
     });
+    this.socket.on('error', function (error) {
+      self.emit('error', error);
+    });
   };
 
   Xbmc.prototype.end = function () {
@@ -84,7 +87,21 @@
       timeout = 5000;
     }
     this.method ('GUI.ShowNotification', {
-      title: 'xbmc-listener.js',
+      title: 'Home Automation',
+      message: msg,
+      displaytime: timeout,
+    }, callback);
+  };
+
+  Xbmc.prototype.alarm = function (name, msg, timeout, callback) {
+    if (typeof timeout === 'function') {
+      callback = timeout;
+      timeout = 5000;
+    } else if (!timeout) {
+      timeout = 5000;
+    }
+    this.method ('GUI.ShowNotification', {
+      title: 'Home Automation',
       message: msg,
       displaytime: timeout,
     }, callback);

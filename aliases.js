@@ -21,6 +21,7 @@ module.exports = {
     home: 'Input.Home',
     action: 'Input.ExecuteAction',
     mute: ['Input.ExecuteAction', ['mute']],
+    reloadkeymaps: ['Input.ExecuteAction', ['reloadkeymaps']],
     volumeup: ['Input.ExecuteAction', ['volumeup']],
     volup: ['Input.ExecuteAction', ['volumeup']],
     'vol+': ['Input.ExecuteAction', ['volumeup']],
@@ -32,7 +33,7 @@ module.exports = {
     stop: ['Input.ExecuteAction', ['stop']],
     pause: ['Input.ExecuteAction', ['pause']],
     fullscreen: ['Input.ExecuteAction', ['fullscreen']],
-    visualisation: ['GUI.ActivateWindow', ['visualisation']]
-
+    visualisation: ['GUI.ActivateWindow', ['visualisation']],
+    visualization: ['GUI.ActivateWindow', ['visualization']]
   }
 };
