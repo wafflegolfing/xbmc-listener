@@ -1,0 +1,13 @@
+{
+  "name": "xbmc-listener",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "request": "*"
+  },
+  "keywords": [
+    "xbmc",
+    "events",
+    "notifications"
+  ]
+}
