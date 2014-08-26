@@ -1,3 +1,4 @@
+//
 (function () {
   'use strict';
   var aliases = require('./aliases.js').method;
