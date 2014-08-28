@@ -143,7 +143,7 @@ These special events are attempts to get more fine tuned notifications, they may
 
 The callback result is a sub object from Xbmcs JSON response with details of the item.
 ```
-'play', 'paus', 'stop', 'seek', 'scan', 'sleep', 'exit', 'quit', 'wake'
+'play', 'pause', 'stop', 'seek', 'scan', 'sleep', 'exit', 'quit', 'wake'
 ```
 Just aliases for the standard events: play => Player.OnPlay et c.
 
