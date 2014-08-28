@@ -15,9 +15,9 @@ module.exports = {
   method: {
     // alias: Xbmc Method (if array => [method, params])
     left: 'Input.Left',
-    right: 'Input.Left',
-    up: 'Input.Left',
-    down: 'Input.Left',
+    right: 'Input.Right',
+    up: 'Input.Up',
+    down: 'Input.Down',
     select: 'Input.Select',
     info: 'Input.Info',
     home: 'Input.Home',
