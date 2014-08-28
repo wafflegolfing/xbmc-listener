@@ -1,4 +1,5 @@
 module.exports = {
+    // aliases for xbmc emitted events
   event: {
     // Xbmc event: [array of aliases]
     'Player.OnPlay': ['play'],
@@ -10,6 +11,7 @@ module.exports = {
     'System.OnWake': ['wake'],
     'Player.OnSeek': ['seek']
   },
+  // aliases/shortcuts for xbmc API methods
   method: {
     // alias: Xbmc Method (if array => [method, params])
     left: 'Input.Left',

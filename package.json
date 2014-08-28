@@ -1,13 +1,30 @@
 {
   "name": "xbmc-listener",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "request": "*"
   },
   "keywords": [
     "xbmc",
+    "kodi",
     "events",
     "notifications"
-  ]
+  ],
+  "description": "A node.js module to listen for Xbmc events (notifications) and do stuff when they happen. The normal Xbmc API methods should also works.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wafflegolfing/xbmc-listener.git"
+  },
+  "author": "wafflegolfing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wafflegolfing/xbmc-listener/issues"
+  },
+  "homepage": "https://github.com/wafflegolfing/xbmc-listener"
 }
