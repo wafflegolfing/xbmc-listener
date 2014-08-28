@@ -161,4 +161,8 @@ Please review aliases.js for a complete list of shortcut methods.
 
 ###### 0.1.0
 
+* fix for some method aliases
+
+###### 0.1.0
+
 * npm release
