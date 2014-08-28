@@ -1,2 +1,4 @@
 node_modules/*
 test*
+npm*
+*.DS_Store*

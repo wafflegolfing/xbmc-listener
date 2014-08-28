@@ -1,16 +1,20 @@
 # xbmc-listener.js
 
-A simple node.js module to listen for Xbmc events and do stuff when they happen. The normal Xbmc API methods should also works.
+A node.js module to listen for Xbmc events (notifications) and do stuff when they happen. The normal Xbmc API methods should also works.
 
-_Known issues_
-- In Xbmc 12.2 music notifications are being sent twice from Player.OnPlay, thus the callback function for the related events will execute twice.
+I wrote this so I could trigger home automation events based on what Xbmc is playing: turn on AVR to the right input when something is playing, turn on TV to the right input when video is playing et c.
 
+## Installation
+
+```
+npm install xbmc-listener
+```
 
 ## Usage
 
 ### Quick Example
 ```javascript
-var Xbmc = require('./index.js');
+var Xbmc = require('xbmc-listener');
 var xbmc = new Xbmc({
   host: '192.168.0.123',
   username: 'xbmc',
@@ -61,8 +65,8 @@ xbmc.on('playMusic', function (data) {
   console.log('playing music');
 });
 
-xbmc.on('playAirplay', function (data) {
-  console.log('playing airplay');
+xbmc.on('playVideo', function (data) {
+  console.log('video is playing');
 });
 
 xbmc.on('Player.OnStop', function (data) {
@@ -74,6 +78,8 @@ xbmc.on('Player.OnStop', function (data) {
 
 The regular Xbmc API methods as well as extra shortcut methods. The http protocol is used, not tcp, no need to connect() and end().
 
+http://wiki.xbmc.org/index.php?title=JSON-RPC_API/v6#Methods
+
 ### method(method, [params], [callback])
 Call one of Xbmc's API methods.
 
@@ -84,31 +90,40 @@ _Arguments_
 
 _Example_
 ```javascript
-xbmc.method('Player.GetProperties', { playerid: 1, properties: [ 'time' ]}, function (error, result) {
+
+// mute xbmc
+xbmc.method('Input.ExecuteAction', ['mute'], function (error, result) {
   if (error) {
-    console.log(error);
-  } else {
-    console.log(result);
+    return console.log(error);
   }
+  console.log(result);
 });
+
+// mute using its shortcut
+xbmc.method('mute', function (error, result) {
+  if (error) {
+    return console.log(error);
+  }
+  console.log(result);
+});
+
 ```
 
-### notify(message, [timeout], [callback])
-Send a notification.
+### notify(opts, [timeout], [callback])
+Send a notification to the Xbmc machine.
 
 _Arguments_
-* message - a string with the message
+* opts - a string with the message or object with options: { message, title, image, timeout }
 * timeout - optional timeout number in ms
 * callback(error, result) - optional callback function
 
 _Example_
 ```javascript
-xbmc.notify('hello', 1500, function (error, result) {
+xbmc.notify('Hello', 1500, function (error, result) {
   if (error) {
-    console.log(error);
-  } else {
-    console.log(result);
+    return onsole.log(error);
   }
+  console.log(result);
 });
 ```
 
@@ -118,42 +133,13 @@ xbmc.notify('hello', 1500, function (error, result) {
 ### Events from standard Xbmc Notifications
 The notifications provided by the Xbmc API should all work. The callback result
 is the parsed JSON response from Xbmc.
-```
-'Application.OnVolumeChanged'
-'AudioLibrary.OnCleanFinished'
-'AudioLibrary.OnCleanStarted'
-'AudioLibrary.OnRemove'
-'AudioLibrary.OnScanFinished'
-'AudioLibrary.OnScanStarted'
-'AudioLibrary.OnUpdate'
-'Input.OnInputFinished'
-'Input.OnInputRequested'
-'Player.OnPause'
-'Player.OnPlay'
-'Player.OnPropertyChanged'
-'Player.OnSeek'
-'Player.OnSpeedChanged'
-'Player.OnStop'
-'Playlist.OnAdd'
-'Playlist.OnClear'
-'Playlist.OnRemove'
-'System.OnLowBattery'
-'System.OnQuit'
-'System.OnRestart'
-'System.OnSleep'
-'System.OnWake'
-'VideoLibrary.OnCleanFinished'
-'VideoLibrary.OnCleanStarted'
-'VideoLibrary.OnRemove'
-'VideoLibrary.OnScanFinished'
-'VideoLibrary.OnScanStarted'
-'VideoLibrary.OnUpdate'
-```
+
+http://wiki.xbmc.org/index.php?title=JSON-RPC_API/v6#Notifications_2
 
 ### Special events
 Some extra events has been added. This list might not be complete, please refer to the source code for all events available.
 
-These special events are attempts to get more fine tuned notifications, they may not always be correct.
+These special events are attempts to get more fine tuned notifications, they may not always be correct, please submit any issues you might find.
 
 The callback result is a sub object from Xbmcs JSON response with details of the item.
 ```
@@ -164,7 +150,7 @@ Just aliases for the standard events: play => Player.OnPlay et c.
 ```
 'play*', 'pause*', 'stop*'
 ```
-*= Video, Audio, Music, Movie, Episode, Song, Airplay, AirplayVideo, WebRadio, Channel, Tv
+*= Video, Audio, Music, Movie, Episode, Song, Channel, Tv
 E.g., 'playEpisode' is the event when an episode starts playing.
 
 ## Shortcut methods
@@ -172,3 +158,7 @@ E.g., 'playEpisode' is the event when an episode starts playing.
 Please review aliases.js for a complete list of shortcut methods.
 
 ## Change log
+
+###### 0.1.0
+
+* npm release
