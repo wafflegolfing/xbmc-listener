@@ -7,6 +7,7 @@ I wrote this so I could trigger home automation events based on what Xbmc is pla
 ## Installation
 
 ```
+npm install xbmc-listener
 ```
 
 ## Usage
