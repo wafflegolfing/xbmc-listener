@@ -1,4 +1,4 @@
-# xbmc-listener.js
+# xbmc-listener
 
 A node.js module to listen for Xbmc events (notifications) and do stuff when they happen. The normal Xbmc API methods should also works.
 
