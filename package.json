@@ -1,7 +1,7 @@
 {
   "name": "xbmc-listener",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "request": "^2.40.0"
   },
