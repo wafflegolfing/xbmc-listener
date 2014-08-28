@@ -159,6 +159,10 @@ Please review aliases.js for a complete list of shortcut methods.
 
 ## Change log
 
+###### 0.1.2
+
+* small fixes
+
 ###### 0.1.1
 
 * fix for some method aliases
