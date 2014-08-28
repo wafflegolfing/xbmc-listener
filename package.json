@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "request": "*"
+    "request": "^2.40.0"
   },
   "keywords": [
     "xbmc",
