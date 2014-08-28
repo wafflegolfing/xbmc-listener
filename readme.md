@@ -2,7 +2,7 @@
 
 A node.js module to listen for Xbmc events (notifications) and do stuff when they happen. The normal Xbmc API methods should also works.
 
-I wrote this so I could trigger home automation events based on what Xbmc is playing: turn on AVR to the right input when something is playing, turn on TV to the right input when video is playing et c.
+I wrote this so I could trigger home automation events based on what Xbmc is playing: turn on AVR to the Xbmc input when anything is playing, turn on TV to the Xbmc input when video is playing et c.
 
 ## Installation
 
