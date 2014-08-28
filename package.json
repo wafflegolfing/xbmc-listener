@@ -1,6 +1,6 @@
 {
   "name": "xbmc-listener",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": false,
   "dependencies": {
     "request": "^2.40.0"
@@ -11,7 +11,7 @@
     "events",
     "notifications"
   ],
-  "description": "A node.js module to listen for Xbmc events (notifications) and do stuff when they happen. The normal Xbmc API methods should also works.",
+  "description": "A node.js module to listen for Xbmc events (notifications) and do stuff when they happen.",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
