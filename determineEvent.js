@@ -63,31 +63,31 @@ module.exports = function (obj, callback, debug) {
     events.push({ event: 'play', data: obj.params.data.item }); // not really
   }
 
-  if (type === 'movie' && obj.params.data.item.id && event === 'Player.OnPlay') {
+  if ((type === 'movie' || type === 'movies') && obj.params.data.item.id && event === 'Player.OnPlay') {
     events.push({ event: 'playMovie', data: obj.params.data.item });
   }
 
-  if (type === 'movie' && obj.params.data.item.id && event === 'Player.OnPlay') {
+  if ((type === 'movie' || type === 'movies') && obj.params.data.item.id && event === 'Player.OnPlay') {
     events.push({ event: 'playMovie', data: obj.params.data.item });
   }
 
-  if (type === 'movie' && obj.params.data.item.id && event === 'Player.OnPause') {
+  if ((type === 'movie' || type === 'movies') && obj.params.data.item.id && event === 'Player.OnPause') {
     events.push({ event: 'pauseMovie', data: obj.params.data.item });
   }
 
-  if (type === 'movie' && obj.params.data.item.id && event === 'Player.OnStop') {
+  if ((type === 'movie' || type === 'movies') && obj.params.data.item.id && event === 'Player.OnStop') {
     events.push({ event: 'stopMovie', data: obj.params.data.item });
   }
 
-  if (type === 'episode' && event === 'Player.OnPlay') {
+  if ((type === 'episode' || type === 'episodes') && event === 'Player.OnPlay') {
     events.push({ event: 'playEpisode', data: obj.params.data.item });
   }
 
-  if (type === 'episode' && event === 'Player.OnPause') {
+  if ((type === 'episode' || type === 'episodes') && event === 'Player.OnPause') {
     events.push({ event: 'pauseEpisode', data: obj.params.data.item });
   }
 
-  if (type === 'episode' && event === 'Player.OnStop') {
+  if ((type === 'episode' || type === 'episodes') && event === 'Player.OnStop') {
     events.push({ event: 'stopEpisode', data: obj.params.data.item });
   }
 
@@ -112,15 +112,15 @@ module.exports = function (obj, callback, debug) {
     }
   }
 
-  if (player === 1 && event === 'Player.OnPlay' && (type === 'movie' || type === 'episode')) {
+  if (player === 1 && event === 'Player.OnPlay' && (type === 'movies' || type === 'movie' || type === 'episode' || type === 'episodes')) {
     events.push({ event: 'playVideo', data: obj.params.data.item });
   }
 
-  if (player === 1 && event === 'Player.OnPause' && (type === 'movie' || type === 'episode')) {
+  if (player === 1 && event === 'Player.OnPause' && (type === 'movies' || type === 'movie' || type === 'episode' || type === 'episodes')) {
     events.push({ event: 'pauseVideo', data: obj.params.data.item });
   }
 
-  if (player === 1 && event === 'Player.OnStop' && (type === 'movie' || type === 'episode')) {
+  if (player === 1 && event === 'Player.OnStop' && (type === 'movies' || type === 'movie' || type === 'episode' || type === 'episodes')) {
     events.push({ event: 'stopVideo', data: obj.params.data.item });
   }
 

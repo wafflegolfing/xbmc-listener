@@ -159,6 +159,10 @@ Please review aliases.js for a complete list of shortcut methods.
 
 ## Change log
 
+###### 0.1.4
+
+* type seems to be 'movies' instead of 'movie' now, fixed
+
 ###### 0.1.3
 
 * small fixes
