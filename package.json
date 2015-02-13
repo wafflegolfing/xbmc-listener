@@ -3,7 +3,8 @@
   "version": "0.1.4",
   "private": false,
   "dependencies": {
-    "request": "^2.40.0"
+    "request": "^2.40.0",
+    "eversocket": "0.0.3"
   },
   "keywords": [
     "xbmc",
@@ -21,10 +22,16 @@
     "type": "git",
     "url": "https://github.com/wafflegolfing/xbmc-listener.git"
   },
-  "author": "wafflegolfing",
+  "author": {
+    "name": "wafflegolfing"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wafflegolfing/xbmc-listener/issues"
   },
-  "homepage": "https://github.com/wafflegolfing/xbmc-listener"
+  "homepage": "https://github.com/wafflegolfing/xbmc-listener",
+  "readme": "# xbmc-listener\n\nA node.js module to listen for Xbmc events (notifications) and do stuff when they happen. The normal Xbmc API methods should also work.\n\nI wrote this so I could trigger home automation events based on what Xbmc is playing: turn on AVR to the Xbmc input when anything is playing, turn on TV to the Xbmc input when video is playing et c.\n\n## Installation\n\n```\nnpm install xbmc-listener\n```\n\n## Usage\n\n### Quick Example\n```javascript\nvar Xbmc = require('xbmc-listener');\nvar xbmc = new Xbmc({\n  host: '192.168.0.123',\n  username: 'xbmc',\n  password: 'xbmc'\n});\n\nxbmc.connect();\n\nxbmc.on('playMusic', function () {\n  xbmc.method('visualisation', function () {\n    xbmc.notify('switched to visualisation!', 3000, function () {\n    });\n  });\n});\n```\n\n\n## Events\n\nUsing the tcp protocol. Must connect() before listening for events.\n\n### connect()\nOpen connection to the Xbmc machine.\n\n*No arguments*\n\n### end()\nClose connection to the Xbmc machine\n\n*No arguments*\n\n### Event listening\nStart listening for a notification from the Xbmc machine. The xbmc listener inherits from the node.js EventEmitter. For the EventEmitter methods please read its documentation. For available events, scroll to the section \"Event types\" further down.\n\n_Example_\n```javascript\nxbmc.connect();\n\nxbmc.on('play', function (data) {\n  console.log('playing');\n});\n\nxbmc.on('playEpisode', function (data) {\n  console.log('playing episode');\n});\n\nxbmc.on('playMusic', function (data) {\n  console.log('playing music');\n});\n\nxbmc.on('playVideo', function (data) {\n  console.log('video is playing');\n});\n\nxbmc.on('Player.OnStop', function (data) {\n  console.log('stopped');\n});\n```\n\n## Methods\n\nThe regular Xbmc API methods as well as extra shortcut methods. The http protocol is used, not tcp, no need to connect() and end().\n\nhttp://wiki.xbmc.org/index.php?title=JSON-RPC_API/v6#Methods\n\n### method(method, [params], [callback])\nCall one of Xbmc's API methods.\n\n_Arguments_\n* method - A string with the name of the Xbmc method or an alias/shortcut method in aliases.js.\n* params - Optional params array or object for the method, some Xbmc methods require it.\n* callback(error, result) - optional callback function.\n\n_Example_\n```javascript\n\n// mute xbmc\nxbmc.method('Input.ExecuteAction', ['mute'], function (error, result) {\n  if (error) {\n    return console.log(error);\n  }\n  console.log(result);\n});\n\n// mute using its shortcut\nxbmc.method('mute', function (error, result) {\n  if (error) {\n    return console.log(error);\n  }\n  console.log(result);\n});\n\n```\n\n### notify(opts, [timeout], [callback])\nSend a notification to the Xbmc machine.\n\n_Arguments_\n* opts - a string with the message or object with options: { message, title, image, timeout }\n* timeout - optional timeout number in ms\n* callback(error, result) - optional callback function\n\n_Example_\n```javascript\nxbmc.notify('Hello', 1500, function (error, result) {\n  if (error) {\n    return onsole.log(error);\n  }\n  console.log(result);\n});\n```\n\n\n## Event types\n\n### Events from standard Xbmc Notifications\nThe notifications provided by the Xbmc API should all work. The callback result\nis the parsed JSON response from Xbmc.\n\nhttp://wiki.xbmc.org/index.php?title=JSON-RPC_API/v6#Notifications_2\n\n### Special events\nSome extra events has been added. This list might not be complete, please refer to the source code for all events available.\n\nThese special events are attempts to get more fine tuned notifications, they may not always be correct, please submit any issues you might find.\n\nThe callback result is a sub object from Xbmcs JSON response with details of the item.\n```\n'play', 'pause', 'stop', 'seek', 'scan', 'sleep', 'exit', 'quit', 'wake'\n```\nJust aliases for the standard events: play => Player.OnPlay et c.\n\n```\n'play*', 'pause*', 'stop*'\n```\n*= Video, Audio, Music, Movie, Episode, Song, Channel, Tv\nE.g., 'playEpisode' is the event when an episode starts playing.\n\n## Shortcut methods\n\nPlease review aliases.js for a complete list of shortcut methods.\n\n## Change log\n\n###### 0.1.4\n\n* type seems to be 'movies' instead of 'movie' now, fixed\n\n###### 0.1.3\n\n* small fixes\n\n###### 0.1.1\n\n* fix for some method aliases\n\n###### 0.1.0\n\n* npm release\n",
+  "readmeFilename": "readme.md",
+  "_id": "xbmc-listener@0.1.4",
+  "_from": "xbmc-listener@*"
 }

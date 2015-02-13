@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter;
 var net = require('net');
 var request = require('request');
 var util = require('util');
+var EverSocket = require('eversocket').EverSocket;
 var Xbmc;
 
 module.exports = Xbmc = function (conf, debug) {
@@ -18,7 +19,6 @@ module.exports = Xbmc = function (conf, debug) {
   this.httpPort = conf.httpPort || 8080;
   this.methodCallbacks = {};
   this.password = conf.password || 'xbmc';
-  this.socket = new net.Socket();
   this.tcpPort = (conf.port || conf.tcpPort) || 9090;
   this.username = conf.username || 'xbmc';
   this.debug = conf.debug || debug || false;
@@ -31,6 +31,11 @@ Xbmc.prototype.connect = function () {
   var self = this;
   var stream = '';
   if (this.debug) console.log('debugging xbmc listener');
+  this.socket = new EverSocket({
+		reconnectWait: 5000,      // wait 100ms after close event before reconnecting
+		timeout: 1000,            // set the idle timeout to 100ms
+		reconnectOnTimeout: true  // reconnect if the connection is idle
+	});
   this.socket.setEncoding('utf8');
   this.socket.connect(this.tcpPort, this.host);
   this.socket.on('data', function (chunk) {
@@ -61,7 +66,8 @@ Xbmc.prototype.connect = function () {
 };
 
 Xbmc.prototype.end = function () {
-  this.socket.end();
+  this.socket.cancel();
+  this.socket.destroy();
 };
 
 Xbmc.prototype.method = function (method, params, callback) {
