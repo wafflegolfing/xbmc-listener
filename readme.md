@@ -6,9 +6,9 @@ I wrote this so I could trigger home automation events based on what Xbmc is pla
 
 This also works for RasPlex (and Plex home theathre), but you need to manually configure the TCP control endpoint to listen on all interfaces (only localhost by default), by manually editing:
 
-~/.plexht/userdata/guisettings.xml
+`~/.plexht/userdata/guisettings.xml`
 
-find the node <esallinterfaces> and set the value to true.
+find the node `<esallinterfaces>` and set the value to true.
 
 ## Installation
 
