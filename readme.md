@@ -4,6 +4,12 @@ A node.js module to listen for Xbmc events (notifications) and do stuff when the
 
 I wrote this so I could trigger home automation events based on what Xbmc is playing: turn on AVR to the Xbmc input when anything is playing, turn on TV to the Xbmc input when video is playing et c.
 
+This also works for RasPlex (and Plex home theathre), but you need to manually configure the TCP control endpoint to listen on all interfaces (only localhost by default), by manually editing:
+
+`~/.plexht/userdata/guisettings.xml`
+
+find the node `<esallinterfaces>` and set the value to true.
+
 ## Installation
 
 ```

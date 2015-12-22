@@ -18,10 +18,11 @@ module.exports = Xbmc = function (conf, debug) {
   this.httpPort = conf.httpPort || 8080;
   this.methodCallbacks = {};
   this.password = conf.password || 'xbmc';
-  this.socket = new net.Socket();
   this.tcpPort = (conf.port || conf.tcpPort) || 9090;
   this.username = conf.username || 'xbmc';
   this.debug = conf.debug || debug || false;
+  this.pingInterval = conf.pingTimeout || 10000;
+  this.timer = null;
   EventEmitter.call(this);
 };
 
@@ -31,8 +32,8 @@ Xbmc.prototype.connect = function () {
   var self = this;
   var stream = '';
   if (this.debug) console.log('debugging xbmc listener');
+  this.socket = net.createConnection(this.tcpPort, this.host);
   this.socket.setEncoding('utf8');
-  this.socket.connect(this.tcpPort, this.host);
   this.socket.on('data', function (chunk) {
     var str = stream += chunk;
     var checkBrackets = ((str.match(/{/g)||[]).length === (str.match(/}/g)||[]).length);
@@ -58,11 +59,24 @@ Xbmc.prototype.connect = function () {
   this.socket.on('error', function (error) {
     self.emit('error', error);
   });
+
+  // start ping
+  this.ping();
 };
 
 Xbmc.prototype.end = function () {
   this.socket.end();
+  clearTimeout(this.timer);
 };
+
+Xbmc.prototype.ping = function () {
+  var ping = { jsonrpc: '2.0', method: 'JSONRPC.Ping' };
+
+  this.socket.write(JSON.stringify(ping), function () {
+
+  });
+  this.timer = setTimeout(this.ping.bind(this), this.pingInterval);
+}
 
 Xbmc.prototype.method = function (method, params, callback) {
   var obj = { method: method, params: {}, id: '1', jsonrpc: '2.0' };
